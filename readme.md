@@ -1,6 +1,6 @@
 # magic-iterable [![Build Status](https://travis-ci.org/sindresorhus/magic-iterable.svg?branch=master)](https://travis-ci.org/sindresorhus/magic-iterable)
 
-> Call a method on all items in an iterable
+> Call a method on all items in an iterable by calling it on the iterable itself
 
 Uses the [`Proxy` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
 
