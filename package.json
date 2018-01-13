@@ -1,0 +1,38 @@
+{
+	"name": "magic-iterable",
+	"version": "0.0.0",
+	"description": "Call a method on all items in an iterable",
+	"license": "MIT",
+	"repository": "sindresorhus/magic-iterable",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=6"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"iterable",
+		"iterator",
+		"array",
+		"method",
+		"function",
+		"call",
+		"apply",
+		"proxy",
+		"proxies",
+		"es2015",
+		"magic"
+	],
+	"devDependencies": {
+		"ava": "*",
+		"xo": "*"
+	}
+}
