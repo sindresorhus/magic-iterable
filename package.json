@@ -1,6 +1,6 @@
 {
 	"name": "magic-iterable",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Call a method on all items in an iterable",
 	"license": "MIT",
 	"repository": "sindresorhus/magic-iterable",
