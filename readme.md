@@ -52,7 +52,7 @@ magicIterable(document.querySelectorAll('a')).addEventListener('click', () => {
 
 ### magicIterable(iterable)
 
-Returns a version of `iterable` that when you call a method on it that doesn't already exist, it will call that method on all items in the iterable and return an array with the result.
+Returns a version of `iterable` that when you call a method on it, it will call that method on all items in the iterable and return an array with the result.
 
 #### iterable
 

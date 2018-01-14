@@ -62,3 +62,20 @@ test('does not work on heterogeneous iterable', t => {
 		magicArray.foo();
 	}, /Item 3 of the iterable is missing the foo\(\) method/);
 });
+
+test('should work on array of non-objects', t => {
+	t.deepEqual(m(['a', 'b']).includes('b'), [false, true]);
+});
+
+test('should only apply to the items of the iterable', t => {
+	const fixture = {
+		foo() {
+			return '🦄';
+		}
+	};
+
+	const array = [fixture, fixture];
+	array.foo = () => '🤡';
+
+	t.deepEqual(m(array).foo(), ['🦄', '🦄']);
+});

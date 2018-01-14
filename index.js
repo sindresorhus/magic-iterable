@@ -2,11 +2,7 @@
 
 module.exports = iterable => {
 	return new Proxy(iterable, {
-		get(target, property, receiver) {
-			if (Reflect.has(target, property)) {
-				return Reflect.get(target, property, receiver);
-			}
-
+		get(target, property) {
 			return function (...args) {
 				const ret = [];
 
@@ -14,7 +10,7 @@ module.exports = iterable => {
 				for (const item of target) {
 					i++;
 
-					if (!Reflect.has(item, property)) {
+					if (typeof item[property] === 'undefined') {
 						throw new TypeError(`Item ${i} of the iterable is missing the ${property}() method`);
 					}
 
