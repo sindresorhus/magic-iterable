@@ -3,7 +3,7 @@
 module.exports = iterable => {
 	return new Proxy(iterable, {
 		get(target, property, receiver) {
-			if (property in target) {
+			if (Reflect.has(target, property)) {
 				return Reflect.get(target, property, receiver);
 			}
 
