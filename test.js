@@ -79,3 +79,7 @@ test('should only apply to the items of the iterable', t => {
 
 	t.deepEqual(m(array).foo(), ['🦄', '🦄']);
 });
+
+test.failing('should support properties, not just methods', t => {
+	t.deepEqual(m(['a', 'ab', 'abc']).length.toString(), ['1', '2', '3']);
+});
