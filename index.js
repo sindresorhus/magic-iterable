@@ -3,31 +3,32 @@
 module.exports = function magicIterable(iterable) {
 	return new Proxy(iterable, {
 		get(target, property) {
-			function * iterator() {
+			function caller(...args) {
+				const ret = [];
 				for (const item of target) {
-					yield item[property];
+					ret.push(Reflect.apply(item[property], item, args));
 				}
-			}
-			function * iteratorCaller(...args) {
-				for (const item of target) {
-					yield Reflect.apply(item[property], item, args);
-				}
+				return ret;
 			}
 
 			let i = 0;
 			let isMethod = true;
+			let ret = [];
 			for (const item of target) {
-				i++;
 				if (typeof item[property] === 'undefined') {
 					throw new TypeError(`Item ${i} of the iterable is missing the ${property} property`);
 				}
-
 				isMethod = isMethod && typeof item[property] === 'function';
+				ret.push(item[property]);
+				i++;
 			}
 
-			const ret = magicIterable(isMethod ? iteratorCaller : {});
-			ret[Symbol.iterator] = iterator;
-			return ret;
+			if (isMethod) {
+				// Make fake array out of caller function
+				Object.assign(caller, ret);
+				ret = caller;
+			}
+			return magicIterable(ret);
 		}
 	});
 };
