@@ -31,7 +31,7 @@ const magicArray = magicIterable(array);
 Array.isArray(magicArray);
 //=> true
 
-magicArray.increment(2);
+magicArray.increment(2).toArray();
 //=> [2, 4, 6, 8];
 
 x.i;

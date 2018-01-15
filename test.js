@@ -23,7 +23,7 @@ test('main', t => {
 	const magicArray = m(array);
 
 	t.true(Array.isArray(magicArray));
-	t.deepEqual(magicArray.increment(2), [2, 4, 6, 8]);
+	t.deepEqual(magicArray.increment(2).toArray(), [2, 4, 6, 8]);
 	t.is(i, 8);
 });
 
@@ -38,7 +38,7 @@ test('`this` works correctly', t => {
 
 	const array = [fixture, fixture, fixture, fixture];
 
-	t.deepEqual(m(array).increment(2), [2, 4, 6, 8]);
+	t.deepEqual(m(array).increment(2).toArray(), [2, 4, 6, 8]);
 	t.is(fixture.i, 8);
 });
 
@@ -64,7 +64,7 @@ test('does not work on heterogeneous iterable', t => {
 });
 
 test('should work on array of non-objects', t => {
-	t.deepEqual(m(['a', 'b']).includes('b'), [false, true]);
+	t.deepEqual(m(['a', 'b']).includes('b').toArray(), [false, true]);
 });
 
 test('should only apply to the items of the iterable', t => {
@@ -77,9 +77,9 @@ test('should only apply to the items of the iterable', t => {
 	const array = [fixture, fixture];
 	array.foo = () => '🤡';
 
-	t.deepEqual(m(array).foo(), ['🦄', '🦄']);
+	t.deepEqual(m(array).foo().toArray(), ['🦄', '🦄']);
 });
 
-test.failing('should support properties, not just methods', t => {
-	t.deepEqual(m(['a', 'ab', 'abc']).length.toString(), ['1', '2', '3']);
+test('should support properties, not just methods', t => {
+	t.deepEqual(m(['a', 'ab', 'abc']).length.toString().toArray(), ['1', '2', '3']);
 });
