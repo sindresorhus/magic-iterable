@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function magicIterable(iterable) {
+module.exports = iterable => {
 	return new Proxy(iterable, {
 		get(target, property) {
 			function caller(...args) {
@@ -25,10 +25,14 @@ module.exports = function magicIterable(iterable) {
 
 			if (isMethod) {
 				// Make fake array out of caller function
-				Object.assign(caller, ret);
-				ret = caller;
+				Object.defineProperty(caller, 'length', {
+					value: ret.length
+				});
+				ret = Object.assign(caller, ret);
+				ret[Symbol.iterator] = [][Symbol.iterator];
 			}
-			return magicIterable(ret);
+
+			return ret;
 		}
 	});
 };

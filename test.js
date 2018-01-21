@@ -81,5 +81,10 @@ test('should only apply to the items of the iterable', t => {
 });
 
 test('should support properties, not just methods', t => {
-	t.deepEqual(m(['a', 'ab', 'abc']).length.toString(), ['1', '2', '3']);
+	t.deepEqual(m(['a', 'ab', 'abc']).length, [1, 2, 3]);
+	t.deepEqual(m(m(['a', 'ab', 'abc']).length).toString(), ['1', '2', '3']);
+});
+
+test('should return arrays of properties even if they’re methods', t => {
+	t.deepEqual([...m(['a', 'ab', 'abc']).match], [''.match, ''.match, ''.match]);
 });
