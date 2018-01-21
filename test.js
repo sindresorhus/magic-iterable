@@ -60,7 +60,7 @@ test('does not work on heterogeneous iterable', t => {
 
 	t.throws(() => {
 		magicArray.foo();
-	}, /Item 3 of the iterable is missing the foo\(\) method/);
+	}, /Item 2 of the iterable is missing the foo property/);
 });
 
 test('should work on array of non-objects', t => {
@@ -80,6 +80,6 @@ test('should only apply to the items of the iterable', t => {
 	t.deepEqual(m(array).foo(), ['🦄', '🦄']);
 });
 
-test.failing('should support properties, not just methods', t => {
+test('should support properties, not just methods', t => {
 	t.deepEqual(m(['a', 'ab', 'abc']).length.toString(), ['1', '2', '3']);
 });
