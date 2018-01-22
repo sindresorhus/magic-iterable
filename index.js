@@ -1,24 +1,45 @@
 'use strict';
 
-module.exports = iterable => {
+const magicIterable = iterable => {
 	return new Proxy(iterable, {
 		get(target, property) {
-			return function (...args) {
-				const ret = [];
+			if (property === '_toArray') {
+				return () => target;
+			}
 
-				let i = 0;
-				for (const item of target) {
-					i++;
+			let ret = [];
+			let isMethod = false;
 
-					if (typeof item[property] === 'undefined') {
-						throw new TypeError(`Item ${i} of the iterable is missing the ${property}() method`);
+			for (const item of target) {
+				if (typeof item[property] === 'function') {
+					isMethod = true;
+					ret = [];
+					break;
+				}
+				ret.push(item[property]);
+			}
+
+			if (isMethod) {
+				return function (...args) {
+					for (const item of target) {
+						if (typeof item === 'undefined' || item === null || typeof item[property] === 'undefined') {
+							ret.push(undefined);
+							continue;
+						}
+						if (typeof item[property] === 'function') {
+							ret.push(Reflect.apply(item[property], item, args));
+							continue;
+						}
+						ret.push(item[property]);
 					}
 
-					ret.push(Reflect.apply(item[property], item, args));
-				}
+					return magicIterable(ret);
+				};
+			}
 
-				return ret;
-			};
+			return magicIterable(ret);
 		}
 	});
 };
+
+module.exports = magicIterable;

@@ -23,7 +23,7 @@ test('main', t => {
 	const magicArray = m(array);
 
 	t.true(Array.isArray(magicArray));
-	t.deepEqual(magicArray.increment(2), [2, 4, 6, 8]);
+	t.deepEqual(magicArray.increment(2)._toArray(), [2, 4, 6, 8]);
 	t.is(i, 8);
 });
 
@@ -38,14 +38,16 @@ test('`this` works correctly', t => {
 
 	const array = [fixture, fixture, fixture, fixture];
 
-	t.deepEqual(m(array).increment(2), [2, 4, 6, 8]);
+	t.deepEqual(m(array).increment(2)._toArray(), [2, 4, 6, 8]);
 	t.is(fixture.i, 8);
 });
 
-test('does not work on heterogeneous iterable', t => {
+test('Should return undefined if the property/method is missing', t => {
 	const createFixture = () => {
 		return {
-			foo() {}
+			foo() {
+				return '🦄';
+			}
 		};
 	};
 
@@ -56,15 +58,11 @@ test('does not work on heterogeneous iterable', t => {
 		createFixture()
 	];
 
-	const magicArray = m(array);
-
-	t.throws(() => {
-		magicArray.foo();
-	}, /Item 3 of the iterable is missing the foo\(\) method/);
+	t.deepEqual(m(array).foo()._toArray(), ['🦄', '🦄', undefined, '🦄']);
 });
 
 test('should work on array of non-objects', t => {
-	t.deepEqual(m(['a', 'b']).includes('b'), [false, true]);
+	t.deepEqual(m(['a', 'b']).includes('b')._toArray(), [false, true]);
 });
 
 test('should only apply to the items of the iterable', t => {
@@ -77,9 +75,33 @@ test('should only apply to the items of the iterable', t => {
 	const array = [fixture, fixture];
 	array.foo = () => '🤡';
 
-	t.deepEqual(m(array).foo(), ['🦄', '🦄']);
+	t.deepEqual(m(array).foo()._toArray(), ['🦄', '🦄']);
 });
 
-test.failing('should support properties, not just methods', t => {
-	t.deepEqual(m(['a', 'ab', 'abc']).length.toString(), ['1', '2', '3']);
+test('should support properties, not just methods', t => {
+	t.deepEqual(m(['a', 'ab', 'abc']).length.toString()._toArray(), ['1', '2', '3']);
+});
+
+test('should support properties and methods mixed', t => {
+	const createMethodFixture = () => {
+		return {
+			foo() {
+				return '🦄';
+			}
+		};
+	};
+	const createPropertyFixture = () => {
+		return {
+			foo: '🦄'
+		};
+	};
+
+	const array = [
+		createMethodFixture(),
+		createPropertyFixture(),
+		createMethodFixture(),
+		createPropertyFixture()
+	];
+	// if the property type is function, it should return a function which will return an iterable.
+	t.deepEqual((m(array).foo)()._toArray(), ['🦄', '🦄', '🦄', '🦄']);
 });
