@@ -102,6 +102,6 @@ test('should support properties and methods mixed', t => {
 		createMethodFixture(),
 		createPropertyFixture()
 	];
-	// if the property type is function, it should return a function which will return an iterable.
+	// If the property type is function, it should return a function which will return an iterable.
 	t.deepEqual((m(array).foo)()._toArray(), ['🦄', '🦄', '🦄', '🦄']);
 });
