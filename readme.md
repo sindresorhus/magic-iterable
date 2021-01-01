@@ -1,4 +1,4 @@
-# magic-iterable [![Build Status](https://travis-ci.org/sindresorhus/magic-iterable.svg?branch=master)](https://travis-ci.org/sindresorhus/magic-iterable)
+# magic-iterable
 
 > Call a method on all items in an iterable by calling it on the iterable itself
 
