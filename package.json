@@ -1,6 +1,6 @@
 {
 	"name": "magic-iterable",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"description": "Call a method on all items in an iterable by calling it on the iterable itself",
 	"license": "MIT",
 	"repository": "sindresorhus/magic-iterable",
