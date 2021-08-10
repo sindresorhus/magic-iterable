@@ -4,24 +4,22 @@
 
 Uses the [`Proxy` API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy).
 
-
 ## Install
 
 ```
 $ npm install magic-iterable
 ```
 
-
 ## Usage
 
 ```js
-const magicIterable = require('magic-iterable');
+import magicIterable from 'magic-iterable';
 
 const x = {
-	i: 0,
+	index: 0,
 	increment(value) {
-		this.i += value;
-		return this.i;
+		this.index += value;
+		return this.index;
 	}
 };
 
@@ -34,19 +32,18 @@ Array.isArray(magicArray);
 magicArray.increment(2);
 //=> [2, 4, 6, 8];
 
-x.i;
+x.index;
 //=> 8
 ```
 
 ```js
-const magicIterable = require('magic-iterable');
+import magicIterable from 'magic-iterable';
 
 // Subscribes to click events for all `<a>` elements
 magicIterable(document.querySelectorAll('a')).addEventListener('click', () => {
 	console.log('Click');
 });
 ```
-
 
 ## API
 
@@ -60,14 +57,8 @@ Type: [`Iterable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 Iterable where all the items has the method you want to call.
 
-
 ## Related
 
 - [on-change](https://github.com/sindresorhus/on-change) - Watch an object or array for changes (Uses `Proxy` too)
 - [negative-array](https://github.com/sindresorhus/negative-array) - Negative array index support (Uses `Proxy` too)
 - [known](https://github.com/sindresorhus/known) - Allow only access to known object properties (Uses `Proxy` too)
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)
